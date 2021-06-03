@@ -15,6 +15,7 @@ class MainActivity : AppCompatActivity() {
 
         val items = mutableListOf<Item>()
         items.add(Item("음악", "제발 단 한 번이라도 너를 볼 수 있다면", "G-Dragon 무제"))
+        items.add(Item("음악", "온통 너의 생각 뿐이야 나도 미치겠어", "브레이브걸스 Rollin'"))
 
         val layoutInflater = LayoutInflater.from(this@MainActivity)
         val adapter = MyRecyclerViewAdapter(layoutInflater, items)
