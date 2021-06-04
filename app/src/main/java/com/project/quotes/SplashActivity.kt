@@ -24,11 +24,11 @@ class SplashActivity : AppCompatActivity() {
             )
         }
 
-        //2초 뒤 MainActivity로 전환
+        //1초 뒤 MainActivity로 전환
         Handler(Looper.getMainLooper()).postDelayed({
             val intent = Intent(this@SplashActivity, MainActivity::class.java)
             startActivity(intent)
-        }, 2000)
+        }, 1000)
 
 
     }
