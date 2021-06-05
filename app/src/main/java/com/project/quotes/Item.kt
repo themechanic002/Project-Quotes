@@ -1,8 +1,9 @@
 package com.project.quotes
 
-class Item(
-    var folder: String = "folder",
-    var sentence: String = "sentence",
-    var source: String = "source"
-) {
-}
+import io.realm.RealmObject
+
+open class Item(
+        var folder: String = "folder",
+        var sentence: String = "sentence",
+        var source: String = "source"
+) : RealmObject() {}

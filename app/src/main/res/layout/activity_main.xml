@@ -34,7 +34,7 @@
             android:textStyle="bold"/>
 
         <ImageView
-            android:id="@+id/add_quote"
+            android:id="@+id/add_quote_btn"
             android:layout_width="0dp"
             android:layout_height="29dp"
             android:layout_gravity="center_vertical"
