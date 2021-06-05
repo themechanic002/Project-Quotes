@@ -13,6 +13,7 @@
         android:paddingVertical="14dp">
 
         <ImageView
+            android:id="@+id/quote_cancel"
             android:layout_width="0dp"
             android:layout_height="26dp"
             android:layout_gravity="center_vertical"
@@ -33,6 +34,7 @@
             android:textStyle="bold" />
 
         <ImageView
+            android:id="@+id/quote_save"
             android:layout_width="0dp"
             android:layout_height="29dp"
             android:layout_gravity="center_vertical"
@@ -52,17 +54,36 @@
             android:layout_width="160dp"
             android:layout_height="50dp" />
 
+        <ImageView
+            android:id="@+id/new_folder"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/ic_baseline_create_new_folder_24"
+            android:layout_gravity="center_vertical"
+            android:layout_marginHorizontal="4dp"/>
+
     </LinearLayout>
 
 
     <EditText
+        android:id="@+id/quote_sentence"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:autofillHints="Fill your quote"
+        android:hint="Fill your quote"
         android:paddingHorizontal="16dp" />
 
     <EditText
+        android:id="@+id/quote_source"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Source"
+        android:paddingHorizontal="16dp"
+        android:maxLength="15"/>
+
+
+    <EditText
+        android:id="@+id/quote_description"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="3"

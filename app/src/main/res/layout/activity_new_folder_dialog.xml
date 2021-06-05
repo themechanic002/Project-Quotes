@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="350dp"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:orientation="vertical"
+    android:paddingTop="24dp"
+    android:paddingBottom="12dp">
+
+    <EditText
+        android:id="@+id/new_folder_name"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:maxLength="10"
+        android:hint="폴더 이름"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_marginTop="16dp">
+
+        <Button
+            android:id="@+id/new_folder_cancel"
+            style="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginLeft="24dp"
+            android:layout_weight="1"
+            android:text="취소" />
+
+        <View
+            android:layout_width="0.5dp"
+            android:layout_height="24dp"
+            android:background="@color/gray"
+            android:layout_gravity="center_vertical"/>
+
+        <Button
+            android:id="@+id/new_folder_save"
+            style="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginEnd="24dp"
+            android:layout_marginRight="24dp"
+            android:text="저장"/>
+
+    </LinearLayout>
+
+
+</LinearLayout>

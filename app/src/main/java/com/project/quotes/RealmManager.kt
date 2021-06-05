@@ -22,6 +22,7 @@ class RealmManager(val realm: Realm) {
                 realm_item.folder = item.folder
                 realm_item.sentence = item.sentence
                 realm_item.source = item.source
+                realm_item.description = item.description
                 realm.commitTransaction()
             }
 
@@ -32,6 +33,22 @@ class RealmManager(val realm: Realm) {
     //Realm에서 모두 불러오기
     fun findAll(): MutableList<Item> {
         return realm.where(Item::class.java).findAll()
+    }
+
+
+    //Realm에서 folder들만 모두 불러오기
+    fun findFolders(): ArrayList<String>{
+
+        val items: List<Item> = realm.where(Item::class.java).findAll()
+        val folders = ArrayList<String>()
+        for(i in 0 until items.size){
+            if(folders.contains(items[i].folder))
+                continue
+            else
+                folders.add(items[i].folder)
+        }
+
+        return folders
     }
 
 }
