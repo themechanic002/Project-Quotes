@@ -40,6 +40,7 @@ class MainActivity : AppCompatActivity() {
                 .build()
         Realm.setDefaultConfiguration(config)
         val realm = Realm.getDefaultInstance()
+        val realmManager = RealmManager(realm)
 
 
 
@@ -47,7 +48,7 @@ class MainActivity : AppCompatActivity() {
         add_quote_btn.setOnClickListener {
 
             val example_item = Item("음악", "제발 단 한 번이라도 너를 볼 수 있다면", "G-Dragon 무제")
-            RealmManager(realm).createOnRealm(example_item)
+            realmManager.createOnRealm(example_item)
             items.add(example_item)
 
 
@@ -67,7 +68,7 @@ class MainActivity : AppCompatActivity() {
 
         //RecyclerView 어댑터 생성
         val layoutInflater = LayoutInflater.from(this@MainActivity)
-        val adapter = MyRecyclerViewAdapter(layoutInflater, items)
+        val adapter = MyRecyclerViewAdapter(layoutInflater, realmManager.findAll())
         recycler_view.adapter = adapter
         recycler_view.layoutManager = LinearLayoutManager(this@MainActivity)
         recycler_view.addItemDecoration(
