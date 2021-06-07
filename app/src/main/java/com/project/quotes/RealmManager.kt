@@ -42,9 +42,7 @@ class RealmManager(val realm: Realm) {
         val items: List<Item> = realm.where(Item::class.java).findAll()
         val folders = ArrayList<String>()
         for(i in 0 until items.size){
-            if(folders.contains(items[i].folder))
-                continue
-            else
+            if(!folders.contains(items[i].folder))
                 folders.add(items[i].folder)
         }
 

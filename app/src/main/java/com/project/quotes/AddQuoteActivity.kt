@@ -4,6 +4,7 @@ import android.content.DialogInterface
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
@@ -21,18 +22,17 @@ class AddQuoteActivity : AppCompatActivity() {
         //MainActivity에서 넘긴 폴더 리스트 정보 받기
         val folders = ArrayList<String>()
         val count = intent.getStringArrayListExtra("folders")?.size
-        if(count!=null){
-            for(i in 0 until count)
+        if (count != null) {
+            for (i in 0 until count)
                 folders.add(intent.getStringArrayListExtra("folders")?.get(i).toString())
         }
 
 
-
         //폴더 리스트를 펼칠 Spinner 생성
         val adapter = ArrayAdapter(
-            this@AddQuoteActivity,
-            android.R.layout.simple_spinner_dropdown_item,
-            folders as MutableList<String>
+                this@AddQuoteActivity,
+                android.R.layout.simple_spinner_dropdown_item,
+                folders as MutableList<String>
         )
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         folder_spinner.adapter = adapter
@@ -44,15 +44,16 @@ class AddQuoteActivity : AppCompatActivity() {
             val inflater = LayoutInflater.from(this@AddQuoteActivity)
             val new_folder_dialog = inflater.inflate(R.layout.activity_new_folder_dialog, null)
             val alertDialog = AlertDialog.Builder(this@AddQuoteActivity).setView(new_folder_dialog)
-                .setTitle("새 폴더 만들기").show()
+                    .setTitle("새 폴더 만들기").show()
 
 
             //새 폴더 만들기에서 저장 버튼 눌렀을 때
+            val new_folder_name = new_folder_dialog.findViewById<EditText>(R.id.new_folder_name)
             val new_folder_save = new_folder_dialog.findViewById<Button>(R.id.new_folder_save)
             new_folder_save.setOnClickListener {
 
                 //새 폴더 이름을 기존 폴더 리스트에 추가
-                folders.add(""+new_folder_name?.text.toString())
+                folders.add(new_folder_name?.text.toString())
                 alertDialog.dismiss()
             }
 
@@ -74,7 +75,7 @@ class AddQuoteActivity : AppCompatActivity() {
         quote_save.setOnClickListener {
 
             //폴더를 선택하지 않은 경우
-            if(folders.size == 0){
+            if (folders.size == 0) {
                 val alertDialog = AlertDialog.Builder(
                         this@AddQuoteActivity,
                         android.R.style.Theme_DeviceDefault_Light_Dialog
@@ -83,18 +84,17 @@ class AddQuoteActivity : AppCompatActivity() {
                             finish()
                         })
                         .show()
-            }
-            else{
+            } else {
                 //메인이 비어있다면
-                if(quote_sentence.text.isBlank())
+                if (quote_sentence.text.isBlank())
                     quote_sentence.setText(" ")
 
                 //설명이 비어있다면
-                if(quote_description.text.isBlank())
+                if (quote_description.text.isBlank())
                     quote_description.setText(" ")
 
                 //출처가 비어있다면
-                if(quote_source.text.isBlank())
+                if (quote_source.text.isBlank())
                     quote_source.setText(" ")
 
 
@@ -107,13 +107,8 @@ class AddQuoteActivity : AppCompatActivity() {
                 result.putExtra("SavedSource", quote_source.text.toString())
                 result.putExtra("SavedDescription", quote_description.text.toString())
 
-                folder_spinner.onItemSelectedListener = object: AdapterView.OnItemSelectedListener{
-                    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                        if(position!=0)
-                            result.putExtra("SavedFolder", folders.get(position))
-                    }
-                    override fun onNothingSelected(parent: AdapterView<*>?) {}
-                }
+                Log.d("스피너", "position : "+folder_spinner.selectedItemPosition+", text : "+ folder_spinner.selectedItem.toString())
+                result.putExtra("SavedFolder", folder_spinner.selectedItem.toString())
 
 
                 setResult(RESULT_OK, result)
@@ -123,7 +118,6 @@ class AddQuoteActivity : AppCompatActivity() {
         }
 
 
-
     }
 
     override fun onBackPressed() {
@@ -131,23 +125,21 @@ class AddQuoteActivity : AppCompatActivity() {
     }
 
 
-
     //이 페이지에서 뒤로가는 모든 상황에 호출되는 함수
-    fun goBack(){
+    fun goBack() {
         if (quote_sentence.text.isNotBlank()) {
             val alertDialog = AlertDialog.Builder(
-                this@AddQuoteActivity,
-                android.R.style.Theme_DeviceDefault_Light_Dialog
+                    this@AddQuoteActivity,
+                    android.R.style.Theme_DeviceDefault_Light_Dialog
             ).setTitle("작성 중인 내용이 있습니다.").setMessage("내용을 저장하지 않고 돌아갈까요?")
-                .setPositiveButton("확인", DialogInterface.OnClickListener { dialog, which ->
-                    finish()
-                })
-                .setNegativeButton("취소", DialogInterface.OnClickListener { dialog, which ->
-                    dialog.dismiss()
-                })
-                .show()
-        }
-        else{
+                    .setPositiveButton("확인", DialogInterface.OnClickListener { dialog, which ->
+                        finish()
+                    })
+                    .setNegativeButton("취소", DialogInterface.OnClickListener { dialog, which ->
+                        dialog.dismiss()
+                    })
+                    .show()
+        } else {
             finish()
         }
     }

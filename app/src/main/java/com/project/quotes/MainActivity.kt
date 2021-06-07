@@ -27,8 +27,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        //Quotes 개별 아이템들을 담을 리스트 생성
-        val items = mutableListOf<Item>()
 
 
         //Realm 사용
@@ -45,6 +43,8 @@ class MainActivity : AppCompatActivity() {
             if (result.resultCode == Activity.RESULT_OK) {
                 val intentData = result.data
 
+                //val updatedFolders = intentData?.getStringArrayListExtra("UpdatedFolders")
+
                 val newFolder = intentData?.getStringExtra("SavedFolder").toString()
                 val newSentence = intentData?.getStringExtra("SavedSentence").toString()
                 val newSource = intentData?.getStringExtra("SavedSource").toString()
@@ -57,9 +57,6 @@ class MainActivity : AppCompatActivity() {
 
         //add_quote_btn 버튼 눌렀을 때
         add_quote_btn.setOnClickListener {
-
-            val example_item = Item("음악", "제발 단 한 번이라도 너를 볼 수 있다면", "G-Dragon 무제", "지드래곤의 가사 중 한 구절")
-            realmManager.createOnRealm(example_item)
 
 
             //다른 인텐트로 폴더 리스트 정보 담아서 보내기
