@@ -5,6 +5,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import io.realm.kotlin.createObject
@@ -18,13 +19,13 @@ class AddQuoteActivity : AppCompatActivity() {
         setContentView(R.layout.activity_add_quote)
 
         //MainActivity에서 넘긴 폴더 리스트 정보 받기
-        var folders = ArrayList<String>()
+        val folders = ArrayList<String>()
         val count = intent.getStringArrayListExtra("folders")?.size
         if(count!=null){
-            for(i in 0 until count){
+            for(i in 0 until count)
                 folders.add(intent.getStringArrayListExtra("folders")?.get(i).toString())
-            }
         }
+
 
 
         //폴더 리스트를 펼칠 Spinner 생성
@@ -71,16 +72,54 @@ class AddQuoteActivity : AppCompatActivity() {
 
         //저장 버튼 눌렀을 때
         quote_save.setOnClickListener {
-            Toast.makeText(this@AddQuoteActivity, "저장되었습니다.", Toast.LENGTH_SHORT).show()
 
-            val result = Intent()
-            result.putExtra("UpdatedFolders", folders)
-            result.putExtra("SavedFolder", folder_spinner.prompt.toString())
-            result.putExtra("SavedSentence", quote_sentence.text.toString())
-            result.putExtra("SavedSource", quote_source.text.toString())
-            result.putExtra("SavedDescription", quote_description.text.toString())
-            setResult(RESULT_OK, result)
-            finish()
+            //폴더를 선택하지 않은 경우
+            if(folders.size == 0){
+                val alertDialog = AlertDialog.Builder(
+                        this@AddQuoteActivity,
+                        android.R.style.Theme_DeviceDefault_Light_Dialog
+                ).setTitle("선택된 폴더가 없습니다.").setMessage("새 폴더를 추가해주세요.")
+                        .setPositiveButton("확인", DialogInterface.OnClickListener { dialog, which ->
+                            finish()
+                        })
+                        .show()
+            }
+            else{
+                //메인이 비어있다면
+                if(quote_sentence.text.isBlank())
+                    quote_sentence.setText(" ")
+
+                //설명이 비어있다면
+                if(quote_description.text.isBlank())
+                    quote_description.setText(" ")
+
+                //출처가 비어있다면
+                if(quote_source.text.isBlank())
+                    quote_source.setText(" ")
+
+
+                Toast.makeText(this@AddQuoteActivity, "저장되었습니다.", Toast.LENGTH_SHORT).show()
+
+                val result = Intent()
+                result.putExtra("UpdatedFolders", folders)
+                //result.putExtra("SavedFolder", folder_spinner.selectedItem.toString())
+                result.putExtra("SavedSentence", quote_sentence.text.toString())
+                result.putExtra("SavedSource", quote_source.text.toString())
+                result.putExtra("SavedDescription", quote_description.text.toString())
+
+                folder_spinner.onItemSelectedListener = object: AdapterView.OnItemSelectedListener{
+                    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                        if(position!=0)
+                            result.putExtra("SavedFolder", folders.get(position))
+                    }
+                    override fun onNothingSelected(parent: AdapterView<*>?) {}
+                }
+
+
+                setResult(RESULT_OK, result)
+                finish()
+
+            }
         }
 
 

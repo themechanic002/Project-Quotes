@@ -1,11 +1,14 @@
 package com.project.quotes
 
+import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.widget.Toast
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -31,12 +34,25 @@ class MainActivity : AppCompatActivity() {
         //Realm 사용
         Realm.init(this@MainActivity)
         val config: RealmConfiguration = RealmConfiguration.Builder()
-            .deleteRealmIfMigrationNeeded()
-            .build()
+                .deleteRealmIfMigrationNeeded()
+                .build()
         Realm.setDefaultConfiguration(config)
         val realm = Realm.getDefaultInstance()
         realmManager = RealmManager(realm)
 
+
+        val resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val intentData = result.data
+
+                val newFolder = intentData?.getStringExtra("SavedFolder").toString()
+                val newSentence = intentData?.getStringExtra("SavedSentence").toString()
+                val newSource = intentData?.getStringExtra("SavedSource").toString()
+                val newDescription = intentData?.getStringExtra("SavedDescription").toString()
+                realmManager.createOnRealm(Item(newFolder, newSentence, newSource, newDescription))
+
+            }
+        }
 
 
         //add_quote_btn 버튼 눌렀을 때
@@ -46,20 +62,12 @@ class MainActivity : AppCompatActivity() {
             realmManager.createOnRealm(example_item)
 
 
-
-            val intent = Intent(this@MainActivity, AddQuoteActivity::class.java)
-
-            /*//putExtra로 보낼 수 있도록 HashMap이었던 폴더 리스트를 ArrayList로 변환
-            val folders = ArrayList<String>()
-            for (i in 0 until folderList.size) {
-                folders.add(folderList.keys.elementAt(i))
-            }*/
-
-
             //다른 인텐트로 폴더 리스트 정보 담아서 보내기
             //Realm에서 폴더 리스트 정보를 불러와서 putExtra로 보내기
+
+            val intent = Intent(this@MainActivity, AddQuoteActivity::class.java)
             intent.putExtra("folders", realmManager.findFolders())
-            startActivity(intent)
+            resultLauncher.launch(intent)
         }
 
 
@@ -77,14 +85,4 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        val newFolder = data?.getStringExtra("SavedFolder").toString()
-        val newSentence = data?.getStringExtra("SavedSentence").toString()
-        val newSource = data?.getStringExtra("SavedSource").toString()
-        val newDescription = data?.getStringExtra("SavedDescription").toString()
-        realmManager.createOnRealm(Item(newFolder, newSentence, newSource, newDescription))
-        data?.getStringExtra("SavedDescription")
-        super.onActivityResult(requestCode, resultCode, data)
-    }
 }
