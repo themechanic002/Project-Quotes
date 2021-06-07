@@ -13,7 +13,7 @@
         android:paddingVertical="14dp">
 
         <ImageView
-            android:id="@+id/quote_cancel"
+            android:id="@+id/edit_quote_cancel"
             android:layout_width="0dp"
             android:layout_height="26dp"
             android:layout_gravity="center_vertical"
@@ -28,13 +28,13 @@
             android:layout_weight="8"
             android:gravity="center_vertical"
             android:paddingBottom="0dp"
-            android:text="Add Quotes"
+            android:text="Edit Quotes"
             android:textColor="#FFFFFF"
             android:textSize="20dp"
             android:textStyle="bold" />
 
         <ImageView
-            android:id="@+id/quote_save"
+            android:id="@+id/edit_quote_save"
             android:layout_width="0dp"
             android:layout_height="29dp"
             android:layout_gravity="center_vertical"
@@ -50,12 +50,12 @@
         android:paddingHorizontal="16dp">
 
         <Spinner
-            android:id="@+id/folder_spinner"
+            android:id="@+id/edit_folder_spinner"
             android:layout_width="160dp"
             android:layout_height="50dp" />
 
         <ImageView
-            android:id="@+id/new_folder"
+            android:id="@+id/edit_new_folder"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_gravity="center_vertical"
@@ -63,6 +63,7 @@
             android:src="@drawable/ic_baseline_create_new_folder_24" />
 
     </LinearLayout>
+
 
     <TextView
         android:layout_width="match_parent"
@@ -73,9 +74,8 @@
         android:textColor="@color/main2"
         android:textSize="18dp" />
 
-
     <EditText
-        android:id="@+id/quote_sentence"
+        android:id="@+id/edit_quote_sentence"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
@@ -94,7 +94,7 @@
 
 
     <EditText
-        android:id="@+id/quote_source"
+        android:id="@+id/edit_quote_source"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
@@ -114,7 +114,7 @@
 
 
     <EditText
-        android:id="@+id/quote_description"
+        android:id="@+id/edit_quote_description"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginHorizontal="16dp"

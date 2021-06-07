@@ -7,4 +7,5 @@ open class Item(
         var sentence: String = "sentence",
         var source: String = "source",
         var description: String = "description"
+
 ) : RealmObject() {}

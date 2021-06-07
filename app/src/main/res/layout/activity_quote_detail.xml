@@ -13,7 +13,7 @@
         android:paddingVertical="14dp">
 
         <ImageView
-            android:id="@+id/quote_cancel"
+            android:id="@+id/quote_detail_cancel"
             android:layout_width="0dp"
             android:layout_height="26dp"
             android:layout_gravity="center_vertical"
@@ -25,21 +25,31 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginHorizontal="12dp"
-            android:layout_weight="8"
+            android:layout_weight="7"
             android:gravity="center_vertical"
             android:paddingBottom="0dp"
-            android:text="Add Quotes"
+            android:text=""
             android:textColor="#FFFFFF"
             android:textSize="20dp"
             android:textStyle="bold" />
 
         <ImageView
-            android:id="@+id/quote_save"
+            android:id="@+id/quote_detail_delete"
             android:layout_width="0dp"
-            android:layout_height="29dp"
+            android:layout_height="26dp"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/ic_baseline_delete_24"/>
+
+
+        <ImageView
+            android:id="@+id/quote_detail_edit"
+            android:layout_width="0dp"
+            android:layout_height="26dp"
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
-            android:src="@drawable/ic_baseline_check_24" />
+            android:src="@drawable/ic_baseline_edit_24" />
+
 
     </LinearLayout>
 
@@ -49,77 +59,68 @@
         android:orientation="horizontal"
         android:paddingHorizontal="16dp">
 
-        <Spinner
-            android:id="@+id/folder_spinner"
-            android:layout_width="160dp"
-            android:layout_height="50dp" />
-
         <ImageView
-            android:id="@+id/new_folder"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_gravity="center_vertical"
             android:layout_marginHorizontal="4dp"
-            android:src="@drawable/ic_baseline_create_new_folder_24" />
+            android:paddingTop="2dp"
+            android:src="@drawable/ic_baseline_folder_open_24" />
+
+        <TextView
+            android:id="@+id/quote_detail_folder"
+            android:layout_width="160dp"
+            android:layout_height="50dp"
+            android:text="폴더 이름"
+            android:textSize="18dp"
+            android:gravity="center_vertical"
+            android:paddingLeft="8dp"
+            android:textColor="@color/gray"/>
+
 
     </LinearLayout>
 
+
     <TextView
+        android:id="@+id/quote_detail_sentence"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingHorizontal="16dp"
-        android:paddingVertical="16dp"
-        android:text="What is the quote you like?"
-        android:textColor="@color/main2"
-        android:textSize="18dp" />
-
-
-    <EditText
-        android:id="@+id/quote_sentence"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
-        android:hint="Fill your quote"
-        android:textColorHighlight="@color/main2" />
-
+        android:text="메인 쿼트"
+        android:textSize="18dp"
+        android:paddingTop="24dp"
+        android:textColor="@color/black"
+        android:textStyle="bold"/>
 
     <TextView
+        android:id="@+id/quote_detail_source"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingHorizontal="16dp"
-        android:paddingVertical="16dp"
-        android:text="Where does this quote come from?"
-        android:textColor="@color/main2"
-        android:textSize="18dp" />
-
-
-    <EditText
-        android:id="@+id/quote_source"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
-        android:hint="Source"
         android:maxLength="15"
-        android:textColorHighlight="@color/main2" />
+        android:paddingHorizontal="16dp"
+        android:gravity="right"
+        android:text="쿼트의 출처"
+        android:textSize="18dp"
+        android:paddingTop="12dp"
+        android:paddingBottom="24dp"
+        android:textStyle="italic"
+        />
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/lightgray"
+        android:layout_marginHorizontal="16dp"
+        />
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingHorizontal="16dp"
-        android:paddingVertical="16dp"
-        android:text="Is there any description about this quote?"
-        android:textColor="@color/main2"
-        android:textSize="18dp" />
-
-
-    <EditText
-        android:id="@+id/quote_description"
+        android:id="@+id/quote_detail_description"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginHorizontal="16dp"
         android:layout_weight="3"
-        android:hint="Description"
-        android:textColorHighlight="@color/main2" />
+        android:paddingHorizontal="16dp"
+        android:text="쿼트의 간략한 설명"
+        android:textSize="18dp"
+        android:paddingVertical="24dp"/>
 
 </LinearLayout>

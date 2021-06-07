@@ -11,7 +11,8 @@
 
     <color name="main1">#fbcabb</color>
     <color name="main2">#ceb6d9</color>
-    <color name="gray">#9F9F9F</color>
+    <color name="gray">#808080</color>
+    <color name="lightgray">#BCBCBC</color>
 
 
 </resources>

@@ -19,6 +19,8 @@ class AddQuoteActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_quote)
 
+        val folder_spinner = findViewById<Spinner>(R.id.folder_spinner)
+
         //MainActivity에서 넘긴 폴더 리스트 정보 받기
         val folders = ArrayList<String>()
         val count = intent.getStringArrayListExtra("folders")?.size
@@ -27,15 +29,29 @@ class AddQuoteActivity : AppCompatActivity() {
                 folders.add(intent.getStringArrayListExtra("folders")?.get(i).toString())
         }
 
+        //처음에 아무런 item도 없을 때 폴더가 하나라도 없으면 spinner가 작동을 안하기 때문에 기본 폴더 먼저 만들기
+        if(folders.size == 0){
+            folders.add("new folder")
+        }
+
 
         //폴더 리스트를 펼칠 Spinner 생성
         val adapter = ArrayAdapter(
-                this@AddQuoteActivity,
-                android.R.layout.simple_spinner_dropdown_item,
-                folders as MutableList<String>
+            this@AddQuoteActivity,
+            android.R.layout.simple_spinner_dropdown_item,
+            folders as MutableList<String>
         )
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         folder_spinner.adapter = adapter
+
+        folder_spinner.onItemSelectedListener = object: AdapterView.OnItemSelectedListener{
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                folder_spinner.setSelection(position, true)
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+        }
 
 
         //새 폴더 만들기
@@ -44,7 +60,7 @@ class AddQuoteActivity : AppCompatActivity() {
             val inflater = LayoutInflater.from(this@AddQuoteActivity)
             val new_folder_dialog = inflater.inflate(R.layout.activity_new_folder_dialog, null)
             val alertDialog = AlertDialog.Builder(this@AddQuoteActivity).setView(new_folder_dialog)
-                    .setTitle("새 폴더 만들기").show()
+                .setTitle("새 폴더 만들기").show()
 
 
             //새 폴더 만들기에서 저장 버튼 눌렀을 때
@@ -52,9 +68,19 @@ class AddQuoteActivity : AppCompatActivity() {
             val new_folder_save = new_folder_dialog.findViewById<Button>(R.id.new_folder_save)
             new_folder_save.setOnClickListener {
 
-                //새 폴더 이름을 기존 폴더 리스트에 추가
-                folders.add(new_folder_name?.text.toString())
-                alertDialog.dismiss()
+                //폴더 이름에 아무것도 입력 안했을 때
+                if(new_folder_name.text.isBlank()){
+                    Toast.makeText(this@AddQuoteActivity, "폴더 이름을 입력하세요", Toast.LENGTH_SHORT).show()
+                }
+                else{
+
+                    //새 폴더 이름을 기존 폴더 리스트에 추가
+                    folders.add(new_folder_name?.text.toString())
+                    folder_spinner.setSelection(folders.lastIndex)
+
+                    Toast.makeText(this@AddQuoteActivity, ""+folders.lastIndex, Toast.LENGTH_SHORT).show()
+                    alertDialog.dismiss()
+                }
             }
 
             //새 폴더 만들기에서 취소 버튼 눌렀을 때
@@ -75,16 +101,19 @@ class AddQuoteActivity : AppCompatActivity() {
         quote_save.setOnClickListener {
 
             //폴더를 선택하지 않은 경우
-            if (folders.size == 0) {
+            if (folder_spinner.selectedItem == null) {
                 val alertDialog = AlertDialog.Builder(
-                        this@AddQuoteActivity,
-                        android.R.style.Theme_DeviceDefault_Light_Dialog
+                    this@AddQuoteActivity,
+                    android.R.style.Theme_DeviceDefault_Light_Dialog
                 ).setTitle("선택된 폴더가 없습니다.").setMessage("새 폴더를 추가해주세요.")
-                        .setPositiveButton("확인", DialogInterface.OnClickListener { dialog, which ->
-                            finish()
-                        })
-                        .show()
-            } else {
+                    .setPositiveButton("확인", DialogInterface.OnClickListener { dialog, which ->
+                        dialog.dismiss()
+                    })
+                    .show()
+            }
+
+            //폴더를 선택한 경우
+            else {
                 //메인이 비어있다면
                 if (quote_sentence.text.isBlank())
                     quote_sentence.setText(" ")
@@ -101,14 +130,11 @@ class AddQuoteActivity : AppCompatActivity() {
                 Toast.makeText(this@AddQuoteActivity, "저장되었습니다.", Toast.LENGTH_SHORT).show()
 
                 val result = Intent()
-                result.putExtra("UpdatedFolders", folders)
-                //result.putExtra("SavedFolder", folder_spinner.selectedItem.toString())
+
+                result.putExtra("SavedFolder", folder_spinner.selectedItem.toString())
                 result.putExtra("SavedSentence", quote_sentence.text.toString())
                 result.putExtra("SavedSource", quote_source.text.toString())
                 result.putExtra("SavedDescription", quote_description.text.toString())
-
-                Log.d("스피너", "position : "+folder_spinner.selectedItemPosition+", text : "+ folder_spinner.selectedItem.toString())
-                result.putExtra("SavedFolder", folder_spinner.selectedItem.toString())
 
 
                 setResult(RESULT_OK, result)
@@ -127,20 +153,26 @@ class AddQuoteActivity : AppCompatActivity() {
 
     //이 페이지에서 뒤로가는 모든 상황에 호출되는 함수
     fun goBack() {
-        if (quote_sentence.text.isNotBlank()) {
+        if (quote_sentence.text.isBlank())
+            if (quote_source.text.isBlank())
+                if (quote_description.text.isBlank())
+                    finish()
+                else {
+                }
+            else {
+            }
+        else {
             val alertDialog = AlertDialog.Builder(
-                    this@AddQuoteActivity,
-                    android.R.style.Theme_DeviceDefault_Light_Dialog
+                this@AddQuoteActivity,
+                android.R.style.Theme_DeviceDefault_Light_Dialog
             ).setTitle("작성 중인 내용이 있습니다.").setMessage("내용을 저장하지 않고 돌아갈까요?")
-                    .setPositiveButton("확인", DialogInterface.OnClickListener { dialog, which ->
-                        finish()
-                    })
-                    .setNegativeButton("취소", DialogInterface.OnClickListener { dialog, which ->
-                        dialog.dismiss()
-                    })
-                    .show()
-        } else {
-            finish()
+                .setPositiveButton("확인", DialogInterface.OnClickListener { dialog, which ->
+                    finish()
+                })
+                .setNegativeButton("취소", DialogInterface.OnClickListener { dialog, which ->
+                    dialog.dismiss()
+                })
+                .show()
         }
     }
 }

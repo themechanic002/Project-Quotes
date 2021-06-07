@@ -49,4 +49,31 @@ class RealmManager(val realm: Realm) {
         return folders
     }
 
+
+    //Realm에서 수정하기
+    fun editOnRealm(newItem: Item, position: Int){
+
+        val oldItem = findAll().get(position)
+        oldItem.folder = newItem.folder
+        oldItem.sentence = newItem.sentence
+        oldItem.source = newItem.source
+        oldItem.description = newItem.description
+
+    }
+
+
+    fun deleteFromRealm(position: Int){
+
+        //이제 Realm이 MainThread에서 안된다고 해서 코루틴으로 비동기 처리
+        CoroutineScope(Dispatchers.IO).launch {
+
+            withContext(Main) {
+                realm.beginTransaction()
+                val realm_item = findAll().get(position)
+                realm_item.deleteFromRealm()
+                realm.commitTransaction()
+            }
+        }
+    }
+
 }
