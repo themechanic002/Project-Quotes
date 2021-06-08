@@ -124,9 +124,9 @@ class EditQuoteActivity : AppCompatActivity() {
 
             result.putExtra("Index of edited quote (Edit->Main)", position)
             result.putExtra("EditedFolder", edit_folder_spinner.selectedItem.toString())
-            result.putExtra("EditedSentence", quote_sentence.text.toString())
-            result.putExtra("EditedSource", quote_source.text.toString())
-            result.putExtra("EditedDescription", quote_description.text.toString())
+            result.putExtra("EditedSentence", edit_quote_sentence.text.toString())
+            result.putExtra("EditedSource", edit_quote_source.text.toString())
+            result.putExtra("EditedDescription", edit_quote_description.text.toString())
 
 
             setResult(200, result)
