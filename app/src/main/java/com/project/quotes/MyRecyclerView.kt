@@ -58,6 +58,7 @@ class MyRecyclerViewAdapter(
                             .setPositiveButton("확인", DialogInterface.OnClickListener { dialog, which ->
                                 Toast.makeText(layoutInflater.context, "삭제되었습니다", Toast.LENGTH_LONG).show()
                                 realmManager.deleteFromRealm(adapterPosition)
+                                notifyDataSetChanged()
                                 longclickMessage.dismiss()
                                 dialog.dismiss()
                             })
@@ -73,14 +74,15 @@ class MyRecyclerViewAdapter(
             }
 
 
+
             view.setOnClickListener {
                 val intent = Intent(activity, QuoteDetailActivity::class.java)
                 intent.putExtra("Index (main->detail)", adapterPosition)
-                intent.putExtra("folders (main->detail)", realmManager.findFolders())
+                /*intent.putExtra("folders (main->detail)", realmManager.findFolders())
                 intent.putExtra("Quote_Detail_Folder (main->detail)", items[adapterPosition].folder)
                 intent.putExtra("Quote_Detail_Sentence (main->detail)", items[adapterPosition].sentence)
                 intent.putExtra("Quote_Detail_Source (main->detail)", items[adapterPosition].source)
-                intent.putExtra("Quote_Detail_Description (main->detail)", items[adapterPosition].description)
+                intent.putExtra("Quote_Detail_Description (main->detail)", items[adapterPosition].description)*/
                 activity.startActivity(intent)
 
             }

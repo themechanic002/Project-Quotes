@@ -1,8 +1,6 @@
 package com.project.quotes
 
 import android.content.DialogInterface
-import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.widget.ArrayAdapter
@@ -10,8 +8,10 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_add_quote.*
 import kotlinx.android.synthetic.main.activity_edit_quote.*
+import kotlinx.android.synthetic.main.activity_quote_detail.*
 
 class EditQuoteActivity : AppCompatActivity() {
 
@@ -35,7 +35,7 @@ class EditQuoteActivity : AppCompatActivity() {
         //QuoteDetailActivity에서 넘긴 폴더 리스트 정보 받기
         val folders = ArrayList<String>()
         val count = intent.getStringArrayListExtra("folders (detail->edit)")?.size
-        if(count != null){
+        if (count != null) {
             for (i in 0 until count)
                 folders.add(intent.getStringArrayListExtra("folders (detail->edit)")?.get(i).toString())
         }
@@ -43,9 +43,9 @@ class EditQuoteActivity : AppCompatActivity() {
 
         //폴더 리스트를 펼칠 Spinner 생성
         val adapter = ArrayAdapter(
-            this@EditQuoteActivity,
-            android.R.layout.simple_spinner_dropdown_item,
-            folders as MutableList<String>
+                this@EditQuoteActivity,
+                android.R.layout.simple_spinner_dropdown_item,
+                folders as MutableList<String>
         )
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         edit_folder_spinner.adapter = adapter
@@ -53,8 +53,8 @@ class EditQuoteActivity : AppCompatActivity() {
 
         //스피너 기본값(초기값)을 수정 전 폴더로 정해주기
         var selectedIndex = 0
-        for(i in 0 until folders.size){
-            if(folders[i] == Quote_Detail_Folder.toString())
+        for (i in 0 until folders.size) {
+            if (folders[i] == Quote_Detail_Folder.toString())
                 selectedIndex = i
         }
         edit_folder_spinner.setSelection(selectedIndex)
@@ -79,16 +79,15 @@ class EditQuoteActivity : AppCompatActivity() {
             new_folder_save.setOnClickListener {
 
                 //폴더 이름에 아무것도 입력 안했을 때
-                if(new_folder_name.text.isBlank()){
+                if (new_folder_name.text.isBlank()) {
                     Toast.makeText(this@EditQuoteActivity, "폴더 이름을 입력하세요", Toast.LENGTH_SHORT).show()
-                }
-                else{
+                } else {
 
                     //새 폴더 이름을 기존 폴더 리스트에 추가
                     folders.add(new_folder_name?.text.toString())
                     folder_spinner.setSelection(folders.lastIndex)
 
-                    Toast.makeText(this@EditQuoteActivity, ""+folders.lastIndex, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@EditQuoteActivity, "" + folders.lastIndex, Toast.LENGTH_SHORT).show()
                     alertDialog.dismiss()
                 }
             }
@@ -99,7 +98,6 @@ class EditQuoteActivity : AppCompatActivity() {
                 alertDialog.dismiss()
             }
         }
-
 
 
         //수정을 다 끝내고 저장 버튼 눌렀을 때
@@ -120,16 +118,17 @@ class EditQuoteActivity : AppCompatActivity() {
 
             Toast.makeText(this@EditQuoteActivity, "수정되었습니다.", Toast.LENGTH_SHORT).show()
 
-            val result = Intent()
+            //Realm에서 수정
+            val realmManager = RealmManager()
+            realmManager.editOnRealm(Item(
+                    edit_folder_spinner.selectedItem.toString(),
+                    edit_quote_sentence.text.toString(),
+                    edit_quote_source.text.toString(),
+                    edit_quote_description.text.toString()
+            ), position)
 
-            result.putExtra("Index of edited quote (Edit->Main)", position)
-            result.putExtra("EditedFolder", edit_folder_spinner.selectedItem.toString())
-            result.putExtra("EditedSentence", edit_quote_sentence.text.toString())
-            result.putExtra("EditedSource", edit_quote_source.text.toString())
-            result.putExtra("EditedDescription", edit_quote_description.text.toString())
+            setResult(200)
 
-
-            setResult(200, result)
             finish()
         }
 
@@ -157,16 +156,16 @@ class EditQuoteActivity : AppCompatActivity() {
             }
         else {
             val alertDialog = AlertDialog.Builder(
-                this@EditQuoteActivity,
-                android.R.style.Theme_DeviceDefault_Light_Dialog
+                    this@EditQuoteActivity,
+                    android.R.style.Theme_DeviceDefault_Light_Dialog
             ).setTitle("수정 중인 내용이 있습니다.").setMessage("내용을 저장하지 않고 돌아갈까요?")
-                .setPositiveButton("확인", DialogInterface.OnClickListener { dialog, which ->
-                    finish()
-                })
-                .setNegativeButton("취소", DialogInterface.OnClickListener { dialog, which ->
-                    dialog.dismiss()
-                })
-                .show()
+                    .setPositiveButton("확인", DialogInterface.OnClickListener { dialog, which ->
+                        finish()
+                    })
+                    .setNegativeButton("취소", DialogInterface.OnClickListener { dialog, which ->
+                        dialog.dismiss()
+                    })
+                    .show()
         }
     }
 }

@@ -89,7 +89,7 @@
         android:id="@+id/quote_detail_source"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:maxLength="15"
+        android:maxLength="30"
         android:paddingHorizontal="16dp"
         android:gravity="right"
         android:text="쿼트의 출처"

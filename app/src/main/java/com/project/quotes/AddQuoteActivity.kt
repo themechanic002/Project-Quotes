@@ -30,21 +30,21 @@ class AddQuoteActivity : AppCompatActivity() {
         }
 
         //처음에 아무런 item도 없을 때 폴더가 하나라도 없으면 spinner가 작동을 안하기 때문에 기본 폴더 먼저 만들기
-        if(folders.size == 0){
+        if (folders.size == 0) {
             folders.add("new folder")
         }
 
 
         //폴더 리스트를 펼칠 Spinner 생성
         val adapter = ArrayAdapter(
-            this@AddQuoteActivity,
-            android.R.layout.simple_spinner_dropdown_item,
-            folders as MutableList<String>
+                this@AddQuoteActivity,
+                android.R.layout.simple_spinner_dropdown_item,
+                folders as MutableList<String>
         )
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         folder_spinner.adapter = adapter
 
-        folder_spinner.onItemSelectedListener = object: AdapterView.OnItemSelectedListener{
+        folder_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 folder_spinner.setSelection(position, true)
             }
@@ -60,7 +60,7 @@ class AddQuoteActivity : AppCompatActivity() {
             val inflater = LayoutInflater.from(this@AddQuoteActivity)
             val new_folder_dialog = inflater.inflate(R.layout.activity_new_folder_dialog, null)
             val alertDialog = AlertDialog.Builder(this@AddQuoteActivity).setView(new_folder_dialog)
-                .setTitle("새 폴더 만들기").show()
+                    .setTitle("새 폴더 만들기").show()
 
 
             //새 폴더 만들기에서 저장 버튼 눌렀을 때
@@ -69,16 +69,14 @@ class AddQuoteActivity : AppCompatActivity() {
             new_folder_save.setOnClickListener {
 
                 //폴더 이름에 아무것도 입력 안했을 때
-                if(new_folder_name.text.isBlank()){
+                if (new_folder_name.text.isBlank()) {
                     Toast.makeText(this@AddQuoteActivity, "폴더 이름을 입력하세요", Toast.LENGTH_SHORT).show()
-                }
-                else{
+                } else {
 
                     //새 폴더 이름을 기존 폴더 리스트에 추가
                     folders.add(new_folder_name?.text.toString())
                     folder_spinner.setSelection(folders.lastIndex)
 
-                    Toast.makeText(this@AddQuoteActivity, ""+folders.lastIndex, Toast.LENGTH_SHORT).show()
                     alertDialog.dismiss()
                 }
             }
@@ -103,13 +101,13 @@ class AddQuoteActivity : AppCompatActivity() {
             //폴더를 선택하지 않은 경우
             if (folder_spinner.selectedItem == null) {
                 val alertDialog = AlertDialog.Builder(
-                    this@AddQuoteActivity,
-                    android.R.style.Theme_DeviceDefault_Light_Dialog
+                        this@AddQuoteActivity,
+                        android.R.style.Theme_DeviceDefault_Light_Dialog
                 ).setTitle("선택된 폴더가 없습니다.").setMessage("새 폴더를 추가해주세요.")
-                    .setPositiveButton("확인", DialogInterface.OnClickListener { dialog, which ->
-                        dialog.dismiss()
-                    })
-                    .show()
+                        .setPositiveButton("확인", DialogInterface.OnClickListener { dialog, which ->
+                            dialog.dismiss()
+                        })
+                        .show()
             }
 
             //폴더를 선택한 경우
@@ -129,14 +127,26 @@ class AddQuoteActivity : AppCompatActivity() {
 
                 Toast.makeText(this@AddQuoteActivity, "저장되었습니다.", Toast.LENGTH_SHORT).show()
 
-                val result = Intent()
+
+                //Realm에 바로 추가하기
+                val realmManager = RealmManager()
+                realmManager.createOnRealm(Item(
+                        folder_spinner.selectedItem.toString(),
+                        quote_sentence.text.toString(),
+                        quote_source.text.toString(),
+                        quote_description.text.toString()
+                ))
+
+
+                //putExtra로 데이터를 돌려보내서 MainActivity에서 Realm에 item을 추가하도록 한 옛날 방식
+                /*val result = Intent()
 
                 result.putExtra("SavedFolder", folder_spinner.selectedItem.toString())
                 result.putExtra("SavedSentence", quote_sentence.text.toString())
                 result.putExtra("SavedSource", quote_source.text.toString())
-                result.putExtra("SavedDescription", quote_description.text.toString())
+                result.putExtra("SavedDescription", quote_description.text.toString())*/
 
-
+                val result = Intent()
                 setResult(RESULT_OK, result)
                 finish()
 
@@ -163,16 +173,16 @@ class AddQuoteActivity : AppCompatActivity() {
             }
         else {
             val alertDialog = AlertDialog.Builder(
-                this@AddQuoteActivity,
-                android.R.style.Theme_DeviceDefault_Light_Dialog
+                    this@AddQuoteActivity,
+                    android.R.style.Theme_DeviceDefault_Light_Dialog
             ).setTitle("작성 중인 내용이 있습니다.").setMessage("내용을 저장하지 않고 돌아갈까요?")
-                .setPositiveButton("확인", DialogInterface.OnClickListener { dialog, which ->
-                    finish()
-                })
-                .setNegativeButton("취소", DialogInterface.OnClickListener { dialog, which ->
-                    dialog.dismiss()
-                })
-                .show()
+                    .setPositiveButton("확인", DialogInterface.OnClickListener { dialog, which ->
+                        finish()
+                    })
+                    .setNegativeButton("취소", DialogInterface.OnClickListener { dialog, which ->
+                        dialog.dismiss()
+                    })
+                    .show()
         }
     }
 }

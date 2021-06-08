@@ -34,13 +34,35 @@ class MainActivity : AppCompatActivity() {
             .deleteRealmIfMigrationNeeded()
             .build()
         Realm.setDefaultConfiguration(config)
-        val realm = Realm.getDefaultInstance()
-        realmManager = RealmManager(realm)
+        realmManager = RealmManager()
 
 
-        //intent로 보냈던 데이터들 다시 받기
+        //RecyclerView 어댑터 생성
+        val layoutInflater = LayoutInflater.from(this@MainActivity)
+        val adapter = MyRecyclerViewAdapter(
+                layoutInflater,
+                realmManager.findAll(),
+                activity = this@MainActivity,
+                realmManager
+        )
+        recycler_view.adapter = adapter
+        val linearLayoutManager = LinearLayoutManager(this@MainActivity)
+        linearLayoutManager.reverseLayout = true
+        linearLayoutManager.stackFromEnd = true
+        recycler_view.layoutManager = linearLayoutManager
+        recycler_view.addItemDecoration(
+                DividerItemDecoration(
+                        recycler_view.context,
+                        RecyclerView.VERTICAL
+                )
+        )
+
+
+
+        /*//intent로 보냈던 데이터들 다시 받는 옛날방식
         val resultLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                //새로운 quote를 만들었을 때
                 if (result.resultCode == Activity.RESULT_OK) {
                     val intentData = result.data
 
@@ -56,12 +78,13 @@ class MainActivity : AppCompatActivity() {
                             newDescription
                         )
                     )
-                } else if (result.resultCode == 200) {
+                }
+                if (result.resultCode == 200) {
                     val intentData = result.data
 
                     var position = intentData?.getIntExtra("Index of edited quote (Edit->Main)", 0)
                     if(position == null)
-                        position = 0
+                        return@registerForActivityResult
 
                     val editedFolder = intentData?.getStringExtra("EditedFolder").toString()
                     val editedSentence = intentData?.getStringExtra("EditedSentence").toString()
@@ -71,7 +94,19 @@ class MainActivity : AppCompatActivity() {
 
                     realmManager.editOnRealm(Item(editedFolder, editedSentence, editedSource, editedDescription), position)
                 }
-            }
+            }*/
+
+
+        //RecyclerView의 최신화를 위해 추가했을 때 그 아이템의 position을 가져다 주고 최신화함.
+        val resultLauncher =
+                registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                    //새로운 quote를 만들었을 때
+                    if (result.resultCode == Activity.RESULT_OK) {
+                        val intentData = result.data
+                        if(intentData!=null)
+                            adapter.notifyItemInserted(adapter.itemCount)
+                    }
+                }
 
 
         //add_quote_btn 버튼 눌렀을 때
@@ -86,23 +121,20 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-        //RecyclerView 어댑터 생성
-        val layoutInflater = LayoutInflater.from(this@MainActivity)
-        val adapter = MyRecyclerViewAdapter(
-            layoutInflater,
-            realmManager.findAll(),
-            activity = this@MainActivity,
-            realmManager
-        )
-        recycler_view.adapter = adapter
-        recycler_view.layoutManager = LinearLayoutManager(this@MainActivity)
-        recycler_view.addItemDecoration(
-            DividerItemDecoration(
-                recycler_view.context,
-                RecyclerView.VERTICAL
-            )
-        )
+
+
+
+
 
     }
 
+
+    override fun onRestart() {
+        //이 Activity 새로고침
+        finish()
+        overridePendingTransition(0, 0)
+        startActivity(intent)
+        overridePendingTransition(0,0)
+        super.onRestart()
+    }
 }

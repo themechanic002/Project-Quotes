@@ -15,20 +15,43 @@ class QuoteDetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_quote_detail)
 
+        val realmManager = RealmManager()
+
         val position = intent.getIntExtra("Index (main->detail)", 0)
-        val folders = intent.getStringArrayListExtra("folders (main->detail)")
+        /*val folders = intent.getStringArrayListExtra("folders (main->detail)")
         var Quote_Detail_Folder = intent.getStringExtra("Quote_Detail_Folder (main->detail)")
         var Quote_Detail_Sentence = intent.getStringExtra("Quote_Detail_Sentence (main->detail)")
         var Quote_Detail_Source = intent.getStringExtra("Quote_Detail_Source (main->detail)")
-        var Quote_Detail_Description = intent.getStringExtra("Quote_Detail_Description (main->detail)")
+        var Quote_Detail_Description = intent.getStringExtra("Quote_Detail_Description (main->detail)")*/
+
+        val folders = realmManager.findFolders()
+        var Quote_Detail_Folder = realmManager.getFolder(position)
+        var Quote_Detail_Sentence = realmManager.getSentence(position)
+        var Quote_Detail_Source = realmManager.getSource(position)
+        var Quote_Detail_Description = realmManager.getDescription(position)
+
         quote_detail_folder.setText(Quote_Detail_Folder)
         quote_detail_sentence.setText(Quote_Detail_Sentence)
         quote_detail_source.setText("- " + Quote_Detail_Source)
         quote_detail_description.setText(Quote_Detail_Description)
 
 
+        val resultLauncher =
+                registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                    if (result.resultCode == 200) {
 
-        //intent로 보냈던 데이터들 다시 받기
+                        //이 Activity 새로고침
+                        finish()
+                        overridePendingTransition(0, 0)
+                        startActivity(intent)
+                        overridePendingTransition(0,0)
+
+                    }
+                }
+
+
+
+        /*//intent로 보냈던 데이터들 다시 받기
         val resultLauncher =
                 registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
                     if (result.resultCode == 200) {
@@ -44,7 +67,7 @@ class QuoteDetailActivity : AppCompatActivity() {
                         quote_detail_description.setText(Quote_Detail_Description)
 
                     }
-                }
+                }*/
 
 
 
