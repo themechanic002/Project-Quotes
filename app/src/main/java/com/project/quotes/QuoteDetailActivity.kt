@@ -32,7 +32,7 @@ class QuoteDetailActivity : AppCompatActivity() {
 
         quote_detail_folder.setText(Quote_Detail_Folder)
         quote_detail_sentence.setText(Quote_Detail_Sentence)
-        quote_detail_source.setText("- " + Quote_Detail_Source)
+        quote_detail_source.setText("- " + Quote_Detail_Source + " ")
         quote_detail_description.setText(Quote_Detail_Description)
 
 

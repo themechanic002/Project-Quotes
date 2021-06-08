@@ -97,7 +97,7 @@ class MyRecyclerViewAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.h_folder.setText(items.get(position).folder)
         holder.h_sentence.setText(items.get(position).sentence)
-        holder.h_source.setText("- " + items.get(position).source)
+        holder.h_source.setText("- " + items.get(position).source + " ")
     }
 
     override fun getItemCount(): Int {
