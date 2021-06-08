@@ -23,6 +23,9 @@ class MainActivity : AppCompatActivity() {
 
     lateinit var realmManager: RealmManager
 
+    //뒤로가기 한번 더 눌렀을 때 종료하는 타이머
+    private var time: Long = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -31,8 +34,8 @@ class MainActivity : AppCompatActivity() {
         //Realm 사용
         Realm.init(this@MainActivity)
         val config: RealmConfiguration = RealmConfiguration.Builder()
-            .deleteRealmIfMigrationNeeded()
-            .build()
+                .deleteRealmIfMigrationNeeded()
+                .build()
         Realm.setDefaultConfiguration(config)
         realmManager = RealmManager()
 
@@ -56,7 +59,6 @@ class MainActivity : AppCompatActivity() {
                         RecyclerView.VERTICAL
                 )
         )
-
 
 
         /*//intent로 보냈던 데이터들 다시 받는 옛날방식
@@ -103,7 +105,7 @@ class MainActivity : AppCompatActivity() {
                     //새로운 quote를 만들었을 때
                     if (result.resultCode == Activity.RESULT_OK) {
                         val intentData = result.data
-                        if(intentData!=null)
+                        if (intentData != null)
                             adapter.notifyItemInserted(adapter.itemCount)
                     }
                 }
@@ -119,13 +121,6 @@ class MainActivity : AppCompatActivity() {
             intent.putExtra("folders", realmManager.findFolders())
             resultLauncher.launch(intent)
         }
-
-
-
-
-
-
-
     }
 
 
@@ -134,7 +129,19 @@ class MainActivity : AppCompatActivity() {
         finish()
         overridePendingTransition(0, 0)
         startActivity(intent)
-        overridePendingTransition(0,0)
+        overridePendingTransition(0, 0)
         super.onRestart()
+    }
+
+
+    //뒤로가기 한번 더 누르면 종료
+    override fun onBackPressed() {
+
+        if (System.currentTimeMillis() - time >= 2000) {
+            time = System.currentTimeMillis()
+            Toast.makeText(this@MainActivity, "한번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT).show()
+        } else if (System.currentTimeMillis() - time < 2000) {
+            finish()
+        }
     }
 }

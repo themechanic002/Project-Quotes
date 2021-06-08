@@ -58,7 +58,13 @@ class MyRecyclerViewAdapter(
                             .setPositiveButton("확인", DialogInterface.OnClickListener { dialog, which ->
                                 Toast.makeText(layoutInflater.context, "삭제되었습니다", Toast.LENGTH_LONG).show()
                                 realmManager.deleteFromRealm(adapterPosition)
-                                notifyDataSetChanged()
+
+                                //새로고침 (notifyDataSetChanged()가 잘 안먹음)
+                                activity.finish()
+                                activity.overridePendingTransition(0, 0)
+                                activity.startActivity(activity.intent)
+                                activity.overridePendingTransition(0,0)
+
                                 longclickMessage.dismiss()
                                 dialog.dismiss()
                             })
@@ -97,7 +103,10 @@ class MyRecyclerViewAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.h_folder.setText(items.get(position).folder)
         holder.h_sentence.setText(items.get(position).sentence)
-        holder.h_source.setText("- " + items.get(position).source + " ")
+        if(items.get(position).source != " ")
+            holder.h_source.setText("- " + items.get(position).source + " ")
+        else
+            holder.h_source.setText(" ")
     }
 
     override fun getItemCount(): Int {

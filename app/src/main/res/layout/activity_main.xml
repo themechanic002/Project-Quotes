@@ -13,12 +13,12 @@
         android:paddingHorizontal="16dp"
         android:paddingVertical="14dp">
 
-        <ImageView
+        <!--<ImageView
             android:layout_width="0dp"
             android:layout_height="26dp"
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
-            android:src="@drawable/ic_baseline_menu_24" />
+            android:src="@drawable/MainImage" />-->
 
         <TextView
             android:layout_width="0dp"

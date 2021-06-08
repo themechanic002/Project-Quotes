@@ -80,7 +80,8 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:hint="Fill your quote"
-        android:textColorHighlight="@color/main2" />
+        android:textColorHighlight="@color/main2"
+        android:maxLines="2"/>
 
 
     <TextView
@@ -100,7 +101,8 @@
         android:layout_marginHorizontal="16dp"
         android:hint="Source"
         android:maxLength="15"
-        android:textColorHighlight="@color/main2" />
+        android:textColorHighlight="@color/main2"
+        android:maxLines="1"/>
 
 
     <TextView

@@ -80,7 +80,8 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:hint="Fill your quote"
-        android:textColorHighlight="@color/main2" />
+        android:textColorHighlight="@color/main2"
+        android:maxLines="2"/>
 
 
     <TextView
@@ -90,7 +91,8 @@
         android:paddingVertical="16dp"
         android:text="Where does this quote come from?"
         android:textColor="@color/main2"
-        android:textSize="18dp" />
+        android:textSize="18dp"
+        android:maxLines="1"/>
 
 
     <EditText
