@@ -14,10 +14,10 @@ import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
 
 class MyRecyclerViewAdapter(
-    val layoutInflater: LayoutInflater,
-    val items: MutableList<Item>,
-    val activity: Activity,
-    val realmManager: RealmManager
+        val layoutInflater: LayoutInflater,
+        val items: MutableList<Item>,
+        val activity: Activity,
+        val realmManager: RealmManager
 ) : RecyclerView.Adapter<MyRecyclerViewAdapter.ViewHolder>() {
 
 
@@ -26,7 +26,7 @@ class MyRecyclerViewAdapter(
         var h_sentence = view.findViewById<TextView>(R.id.sentence)
         var h_source = view.findViewById<TextView>(R.id.source)
 
-        init{
+        init {
 
             /*val resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
                 if (result.resultCode == Activity.RESULT_OK) {
@@ -53,7 +53,7 @@ class MyRecyclerViewAdapter(
 
                     val alertDialog = AlertDialog.Builder(
                             layoutInflater.context,
-                            android.R.style.Theme_DeviceDefault_Light_Dialog
+                            android.R.style.Theme_Material_Light_Dialog
                     ).setTitle("삭제").setMessage("해당 파일을 삭제하시겠습니까?")
                             .setPositiveButton("확인", DialogInterface.OnClickListener { dialog, which ->
                                 Toast.makeText(layoutInflater.context, "삭제되었습니다", Toast.LENGTH_LONG).show()
@@ -63,7 +63,7 @@ class MyRecyclerViewAdapter(
                                 activity.finish()
                                 activity.overridePendingTransition(0, 0)
                                 activity.startActivity(activity.intent)
-                                activity.overridePendingTransition(0,0)
+                                activity.overridePendingTransition(0, 0)
 
                                 longclickMessage.dismiss()
                                 dialog.dismiss()
@@ -103,7 +103,7 @@ class MyRecyclerViewAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.h_folder.setText(items.get(position).folder)
         holder.h_sentence.setText(items.get(position).sentence)
-        if(items.get(position).source != " ")
+        if (items.get(position).source != " ")
             holder.h_source.setText("- " + items.get(position).source + " ")
         else
             holder.h_source.setText(" ")

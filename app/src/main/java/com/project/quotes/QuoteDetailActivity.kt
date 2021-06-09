@@ -32,7 +32,7 @@ class QuoteDetailActivity : AppCompatActivity() {
 
         quote_detail_folder.setText(Quote_Detail_Folder)
         quote_detail_sentence.setText(Quote_Detail_Sentence)
-        if(Quote_Detail_Source != " ")
+        if (Quote_Detail_Source != " ")
             quote_detail_source.setText("- " + Quote_Detail_Source + " ")
         else
             quote_detail_source.setText(" ")
@@ -47,11 +47,10 @@ class QuoteDetailActivity : AppCompatActivity() {
                         finish()
                         overridePendingTransition(0, 0)
                         startActivity(intent)
-                        overridePendingTransition(0,0)
+                        overridePendingTransition(0, 0)
 
                     }
                 }
-
 
 
         /*//intent로 보냈던 데이터들 다시 받기
@@ -71,7 +70,6 @@ class QuoteDetailActivity : AppCompatActivity() {
 
                     }
                 }*/
-
 
 
         //뒤로가기 버튼 눌렀을 때

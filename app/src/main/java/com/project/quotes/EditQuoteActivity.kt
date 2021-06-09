@@ -146,18 +146,14 @@ class EditQuoteActivity : AppCompatActivity() {
 
     //이 페이지에서 뒤로가는 모든 상황에 호출되는 함수
     fun goBack() {
-        if (edit_quote_sentence.text.toString() == Quote_Detail_Sentence)
-            if (edit_quote_source.text.toString() == Quote_Detail_Source)
-                if (edit_quote_description.text.toString() == Quote_Detail_Description)
-                    finish()
-                else {
-                }
-            else {
-            }
-        else {
+
+        if(edit_quote_sentence.text.toString() + edit_quote_source.text.toString() + edit_quote_description.text.toString() == Quote_Detail_Sentence + Quote_Detail_Source + Quote_Detail_Description){
+            finish()
+        }
+        else{
             val alertDialog = AlertDialog.Builder(
                     this@EditQuoteActivity,
-                    android.R.style.Theme_DeviceDefault_Light_Dialog
+                    android.R.style.Theme_Material_Light_Dialog
             ).setTitle("수정 중인 내용이 있습니다.").setMessage("내용을 저장하지 않고 돌아갈까요?")
                     .setPositiveButton("확인", DialogInterface.OnClickListener { dialog, which ->
                         finish()
@@ -167,5 +163,6 @@ class EditQuoteActivity : AppCompatActivity() {
                     })
                     .show()
         }
+
     }
 }

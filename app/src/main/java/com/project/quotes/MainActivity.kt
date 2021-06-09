@@ -139,7 +139,7 @@ class MainActivity : AppCompatActivity() {
 
         if (System.currentTimeMillis() - time >= 2000) {
             time = System.currentTimeMillis()
-            Toast.makeText(this@MainActivity, "한번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this@MainActivity, "한 번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT).show()
         } else if (System.currentTimeMillis() - time < 2000) {
             finish()
         }

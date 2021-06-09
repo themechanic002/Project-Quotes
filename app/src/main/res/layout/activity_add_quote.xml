@@ -80,8 +80,8 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:hint="Quote"
-        android:textColorHighlight="@color/main2"
-        android:maxLines="2"/>
+        android:maxLines="2"
+        android:textColorHighlight="@color/main2" />
 
 
     <TextView
@@ -101,8 +101,8 @@
         android:layout_marginHorizontal="16dp"
         android:hint="Source"
         android:maxLength="15"
-        android:textColorHighlight="@color/main2"
-        android:maxLines="1"/>
+        android:maxLines="1"
+        android:textColorHighlight="@color/main2" />
 
 
     <TextView
@@ -121,6 +121,7 @@
         android:layout_height="0dp"
         android:layout_marginHorizontal="16dp"
         android:layout_weight="3"
+        android:gravity="top|left"
         android:hint="Description"
         android:textColorHighlight="@color/main2" />
 

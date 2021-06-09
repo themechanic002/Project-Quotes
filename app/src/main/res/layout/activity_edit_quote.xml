@@ -79,20 +79,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
-        android:hint="Fill your quote"
-        android:textColorHighlight="@color/main2"
-        android:maxLines="2"/>
+        android:hint="Quote"
+        android:maxLines="2"
+        android:textColorHighlight="@color/main2" />
 
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:maxLines="1"
         android:paddingHorizontal="16dp"
         android:paddingVertical="16dp"
         android:text="Where does this quote come from?"
         android:textColor="@color/main2"
-        android:textSize="18dp"
-        android:maxLines="1"/>
+        android:textSize="18dp" />
 
 
     <EditText
@@ -121,6 +121,7 @@
         android:layout_height="0dp"
         android:layout_marginHorizontal="16dp"
         android:layout_weight="3"
+        android:gravity="top|left"
         android:hint="Description"
         android:textColorHighlight="@color/main2" />
 

@@ -163,18 +163,14 @@ class AddQuoteActivity : AppCompatActivity() {
 
     //이 페이지에서 뒤로가는 모든 상황에 호출되는 함수
     fun goBack() {
-        if (quote_sentence.text.isBlank())
-            if (quote_source.text.isBlank())
-                if (quote_description.text.isBlank())
-                    finish()
-                else {
-                }
-            else {
-            }
-        else {
+
+        if(quote_sentence.text.isBlank().toString() + quote_source.text.isBlank().toString() + quote_description.text.isBlank().toString() == "truetruetrue"){
+            finish()
+        }
+        else{
             val alertDialog = AlertDialog.Builder(
                     this@AddQuoteActivity,
-                    android.R.style.Theme_DeviceDefault_Light_Dialog
+                    android.R.style.Theme_Material_Light_Dialog
             ).setTitle("작성 중인 내용이 있습니다.").setMessage("내용을 저장하지 않고 돌아갈까요?")
                     .setPositiveButton("확인", DialogInterface.OnClickListener { dialog, which ->
                         finish()
