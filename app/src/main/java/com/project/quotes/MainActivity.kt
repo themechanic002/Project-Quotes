@@ -30,14 +30,15 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        realmManager = RealmManager(this@MainActivity)
 
-        //Realm 사용
+        /*//Realm 사용
         Realm.init(this@MainActivity)
         val config: RealmConfiguration = RealmConfiguration.Builder()
                 .deleteRealmIfMigrationNeeded()
                 .build()
         Realm.setDefaultConfiguration(config)
-        realmManager = RealmManager()
+        realmManager = RealmManager()*/
 
 
         //RecyclerView 어댑터 생성

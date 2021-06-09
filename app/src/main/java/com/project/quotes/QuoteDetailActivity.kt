@@ -15,7 +15,7 @@ class QuoteDetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_quote_detail)
 
-        val realmManager = RealmManager()
+        val realmManager = RealmManager(this@QuoteDetailActivity)
 
         val position = intent.getIntExtra("Index (main->detail)", 0)
         /*val folders = intent.getStringArrayListExtra("folders (main->detail)")

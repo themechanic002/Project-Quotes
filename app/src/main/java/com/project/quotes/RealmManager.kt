@@ -1,19 +1,28 @@
 package com.project.quotes
 
+import android.content.Context
 import io.realm.Realm
+import io.realm.RealmConfiguration
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class RealmManager() {
+class RealmManager(context: Context) {
 
-    lateinit var realm: Realm
+    val realm: Realm
 
-    init {
+    init{
+        //Realm 사용
+        Realm.init(context)
+        val config: RealmConfiguration = RealmConfiguration.Builder()
+                .deleteRealmIfMigrationNeeded()
+                .build()
+        Realm.setDefaultConfiguration(config)
         realm = Realm.getDefaultInstance()
     }
+
 
 
     //Realm에 추가

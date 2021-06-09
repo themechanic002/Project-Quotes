@@ -129,7 +129,7 @@ class AddQuoteActivity : AppCompatActivity() {
 
 
                 //Realm에 바로 추가하기
-                val realmManager = RealmManager()
+                val realmManager = RealmManager(this@AddQuoteActivity)
                 realmManager.createOnRealm(Item(
                         folder_spinner.selectedItem.toString(),
                         quote_sentence.text.toString(),

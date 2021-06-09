@@ -85,9 +85,8 @@ class EditQuoteActivity : AppCompatActivity() {
 
                     //새 폴더 이름을 기존 폴더 리스트에 추가
                     folders.add(new_folder_name?.text.toString())
-                    folder_spinner.setSelection(folders.lastIndex)
+                    edit_folder_spinner.setSelection(folders.lastIndex)
 
-                    Toast.makeText(this@EditQuoteActivity, "" + folders.lastIndex, Toast.LENGTH_SHORT).show()
                     alertDialog.dismiss()
                 }
             }
@@ -119,7 +118,7 @@ class EditQuoteActivity : AppCompatActivity() {
             Toast.makeText(this@EditQuoteActivity, "수정되었습니다.", Toast.LENGTH_SHORT).show()
 
             //Realm에서 수정
-            val realmManager = RealmManager()
+            val realmManager = RealmManager(this@EditQuoteActivity)
             realmManager.editOnRealm(Item(
                     edit_folder_spinner.selectedItem.toString(),
                     edit_quote_sentence.text.toString(),
