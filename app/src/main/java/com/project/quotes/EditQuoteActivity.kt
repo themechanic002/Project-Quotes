@@ -108,7 +108,7 @@ class EditQuoteActivity : AppCompatActivity() {
 
             //출처가 비어있다면
             if (edit_quote_source.text.isBlank())
-                edit_quote_source.setText(" ")
+                edit_quote_source.setText("Unknown")
 
             //설명이 비어있다면
             if (edit_quote_description.text.isBlank())

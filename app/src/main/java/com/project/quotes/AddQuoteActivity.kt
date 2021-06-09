@@ -122,7 +122,7 @@ class AddQuoteActivity : AppCompatActivity() {
 
                 //출처가 비어있다면
                 if (quote_source.text.isBlank())
-                    quote_source.setText(" ")
+                    quote_source.setText("Unknown")
 
 
                 Toast.makeText(this@AddQuoteActivity, "저장되었습니다.", Toast.LENGTH_SHORT).show()
