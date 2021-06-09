@@ -62,43 +62,6 @@ class MainActivity : AppCompatActivity() {
         )
 
 
-        /*//intent로 보냈던 데이터들 다시 받는 옛날방식
-        val resultLauncher =
-            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-                //새로운 quote를 만들었을 때
-                if (result.resultCode == Activity.RESULT_OK) {
-                    val intentData = result.data
-
-                    val newFolder = intentData?.getStringExtra("SavedFolder").toString()
-                    val newSentence = intentData?.getStringExtra("SavedSentence").toString()
-                    val newSource = intentData?.getStringExtra("SavedSource").toString()
-                    val newDescription = intentData?.getStringExtra("SavedDescription").toString()
-                    realmManager.createOnRealm(
-                        Item(
-                            newFolder,
-                            newSentence,
-                            newSource,
-                            newDescription
-                        )
-                    )
-                }
-                if (result.resultCode == 200) {
-                    val intentData = result.data
-
-                    var position = intentData?.getIntExtra("Index of edited quote (Edit->Main)", 0)
-                    if(position == null)
-                        return@registerForActivityResult
-
-                    val editedFolder = intentData?.getStringExtra("EditedFolder").toString()
-                    val editedSentence = intentData?.getStringExtra("EditedSentence").toString()
-                    val editedSource = intentData?.getStringExtra("EditedSource").toString()
-                    val editedDescription =
-                        intentData?.getStringExtra("EditedDescription").toString()
-
-                    realmManager.editOnRealm(Item(editedFolder, editedSentence, editedSource, editedDescription), position)
-                }
-            }*/
-
 
         //RecyclerView의 최신화를 위해 추가했을 때 그 아이템의 position을 가져다 주고 최신화함.
         val resultLauncher =
